@@ -1,0 +1,108 @@
+.\" $Id: ifp.1,v 1.4 2005/12/03 05:03:23 yamajun Exp $
+.\"
+.\" Copyright (c)2004 Joe Wreschnig <piman@debian.org>
+.\"
+.\" This is free documentation; you can redistribute it and/or
+.\" modify it under the terms of the GNU General Public License
+.\" version 2 as published by the Free Software Foundation.
+.\"
+.\" The GNU General Public License's references to "object code"
+.\" and "executables" are to be interpreted as the output of any
+.\" document formatting or typesetting system, including
+.\" intermediate and printed output.
+.\"
+.\" On Debian GNU/Linux systems, the GNU GPL can be found in
+.\" /usr/share/common-licenses/GPL-2.
+.TH IFP 1 "May 16th, 2005"
+.SH NAME
+\fBifp\fR \- access iRiver iFP audio devices
+.SH SYNOPSIS
+\fBifp\fR [\fBoption\fR] \fIcommand\fR [\fIarguments ...\fR]
+.SH DESCRIPTION
+\fBifp\fR lets you manage your music on an iRiver iFP music player acting in
+"Manager Mode". If your player is using "UMS Mode", then you don't need
+this program; it will appear as new drive when you plug it in.
+.PP
+\fBifp\fR can upload or download files or directories, delete or make 
+directories on the device, format the device, or upgrade your firmware.
+.PP
+The following options are available:
+.TP
+\fB-h, --help\fR
+Print help message.
+.SH COMMANDS
+.TP
+\fBls\ \fR[\fIdirectory\fR]
+List the files and directories on the device. The root directory is /.
+Directories are preceded with 'd' and other files with 'f'.
+.TP
+\fBdf\fR
+Display total and free space on the device.
+.TP
+\fBupload \fIlocalfile remotefile\fR
+Copy the file named \fIlocalfile\fR to the iFP device, and name it
+\fIremotefile\fR. (This is like \fBcp\fR.)
+.TP
+\fBupload \fIlocalfile remotedir\fR
+Copy the file named \fIlocalfile\fR to the iFP device, into \fIremotedir\fR.
+(This is like \fBcp\fR.)
+.TP
+\fBupload \fIlocaldir remotedir\fR
+Copy the entire directory \fIlocaldir\fR to the device, into \fIremotedir\fR.
+This copies into a subdirectory, so \fBupload foo /\fR puts files from
+the directory \fBfoo\fR info \fB/foo\fR on the device. (This is like
+\fBcp -R\fR.) This uploads the entire directory, not just audio files.
+.TP
+\fBput \fIlocalfile\fR | \fIlocaldir\fR
+Upload the file or directory to the device, with the same name it has
+locally. If a directory is given, it is put in /.
+.TP
+\fBdownload \fIremotefile localfile\fR
+.TP
+\fBdownload \fIremotefile localdir\fR
+.TP
+\fBdownload \fIremotedir localdir\fR
+Like \fBupload\fR, but copies from the iFP device to your system. Some
+proprietary file types may not be downloaded.
+.TP
+\fBget \fIremotefile\fR | \fIremotedir\fR
+Like \fBput\fR, but copies files or directories from the device to your
+current working directory.
+.TP
+\fBrm\ \fR[\fB\-r\fR]\ \fIfile
+Delete (recursively) a file (or directory) on the device.
+.TP
+\fBrmdir \fIdir\fR
+Delete an empty directory on the device.
+.TP
+\fBmkdir \fIdir\fR
+Create a directory on the device.
+.TP
+\fBbattery\fR
+Display battery status of the device.
+.TP
+\fBtypestring\fR
+Display the model number of the device.
+.TP
+\fBfirmversion\fR
+Display the firmware revision currently on the device.
+.TP
+\fBformat\fR
+Reformat the device's memory. \fBThis will delete all your music.\fR
+.TP
+\fBfirmupdate\ \fIFIRMWARE.HEX\fR
+Upload the file \fIFIRMWARE.HEX\fR as new firmware for the device. This
+will not delete your music, but may have many other detrimental effects.
+Don't turn the device off or unplug it while the firmware is updating,
+and don't attempt to upload new firmware with a low battery.
+.TP
+\fBhelp\fR
+Print help message.  Same as "\fB-h\fR | \fB--help\fR".
+.TP
+\fBversion\fR
+Display the version number of \fBifp\fR.
+.TP
+.SH AUTHORS
+Pavel Kriz <pavkriz@gybon.cz> and Yamashiro, Jun <yamajun@{ofug.net,
+cr.ie.u-ryukyu.ac.jp}> wrote \fBifp\fR. This manual page was written
+for Debian by Joe Wreschnig <piman@debian.org>, but may be used by others.

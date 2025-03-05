@@ -1,0 +1,124 @@
+WARNING!!! This an BETA software for testing purpose!!!
+
+ABOUT
+    - this project aims to be an open-source driver for iRiver iFP flash player
+    - currently, it's a command line utility, which uses libusb to access USB
+    - one can use Midnight Commander as frontend
+    - ifp supported manager firmware; not supported UMS firmware
+    - http://ifp-driver.sourceforge.net/
+
+AUTHOR
+    Pavel Kriz <pavkriz@gybon.cz>
+    Yamashiro, Jun <yamajun@{ofug.net, cr.ie.u-ryukyu.ac.jp}>
+    Roback, Joe <joe@roback.cc>, 7XX and 8XX support
+
+TESTED ON
+    - RedHat Linux 7.3 (x86), Gentoo Linux 2004.0
+      FreeBSD/i386 4.x/5.x, NetBSD-current(2.x-3.99.x)/{amd64,i386},
+      Mac OS X(Jaguar/Tiger),
+    - libusb-0.1.7, libusb-0.1.8, libusb-0.1.10a
+    - iRiver iFP-1XX series firmware 1.17-3.55,
+      iriver iFP-7XX series firmware 1.10-1.65
+    
+INSTALLATION
+    % ./configure
+    % make
+    % su
+    # make install	(copy to $(PREFIX)/bin	default: /usr/local/bin )
+
+    And this command is required when you install ifp-line for the first time:
+    # ./nonroot.sh	(configuration for run ifp command by non-root users)
+
+USAGE
+    ./ifp [option] command params
+    (Need permission to read/write USB device for run ifp)
+    
+    - options:
+	-h, --help
+	    Print help message.
+
+    - commands:
+        ls [directory]
+        df
+        upload localfile ifptarget
+        upload localdir  ifpdir
+        download ifpfile localtarget
+        download ifpdir  localdir
+        rm [-r] file
+        rmdir dir
+        mkdir dir
+	battery
+	typestring
+	firmversion
+	format
+	firmupdate /path/to/FIRMWARE.HEX
+	help
+	version
+	
+COMMENTS
+    - terms UPLOAD & DOWNLOAD are inversed against those stupid iRiverManager's
+	- so I use UPLOAD from Computer to iFP, DOWNLOAD from iFP to Computer
+    - iFP has a unix-like behaviour
+	- filenames are case sensitive
+	- it's possible to have `folder' & `FOLDER' directories besides
+    - no wildcards support - only a single file can be down/uploaded
+    - on download *.REC file, convert it *.REC file to wav(iFP-1XX) or
+      rename it *.REC to mp3(iFP-3XX, iFP-5XX)
+	- need install ifprecconv (http://ifp-driver.sourceforge.net) for
+	  convert *.REC to *.wav
+    - if you want to run ifp by non-root user, please run nonroot.sh by root
+	(But, this script isn't perfect.  if failed this script,
+	try to configuration yourself with "TIPS" document)
+
+SETTING-UP MIDNIGHT COMMANDER SUPPORT
+    - you can use mc (http://www.gnome.org/mc/) as frontend to this commandline
+      utility
+    * Step 1
+	- compile ifp by typing `make' here
+    * Step 2
+	- check it works (try `./ifp ls /' to obtain root folder listing)
+	- maybe, you have to run it under root's privileges
+    * Step 3
+	- find your mc's `extfs.ini' file (/usr/lib/mc/extfs/extfs.ini on my
+	  distribution)
+	- add line `ifp' (without quotes) to this file (probably need root)
+    * Step 4
+	- copy ./ifp (executable) to the same directory, where did you found
+	  extfs.ini file (probably need root)
+    = Now, you can run `mc' (under the user, who can write to usb - refer
+      to step 2) and type `cd #ifp' to see iFP's filesystem
+    - access to the filesystem is cached, so if you doubt, exit mc and run
+      again (any suggestions, how to solve this?)
+
+DANGEROUS
+    - battery status is not tested while uploading
+	- original iRiverManager recommends not to up/download when a
+	  battery is going to be empty
+    - some parameters are hardcoded although, iFP may provide them
+	- possible bugs against another firmware version
+
+BAD IMPLEMENTATION
+    - before uploading, file size should be sent to iFP (because of free
+      space checking, I expect - or some allocations???), but I send 0 and
+      it works...
+
+TROUBLESHOOTING
+    - be sure that you have usbdevfs support either built into your kernel, or
+      loaded as a module; additionally, be sure that usbdevfs is mounted in
+      proc. (thx morbie@legions.org)
+    - "Could not find any USB busses." - no usbdevfs available; be sure,
+      you have usb-enabled kernel
+    - "iRiver iFP not found." - usb is available, but iFP doesn't seem to be
+      connected; make sure "usb connected" is displayed on the unit;
+      cable reconnecting may sometimes help; try some utility to check your 
+      usb topology (http://www.kroah.com/linux-usb/)
+    - "Unable to open iFP device." - device is used by another process or you
+      have no rights to write to usb devices, try to do that under root's
+      privileges
+    - if you get wrong output of non-ASCII filename, set correct locale
+      value(ex: set "ja_JP.eucJP" for Japanese EUC) to environment variable
+      such as "LANG" or "LC_ALL".
+
+MAILING LIST
+    - http://lists.sourceforge.net/lists/listinfo/ifp-driver-common/
+

@@ -1,0 +1,74 @@
+
+Configuration tips for run ifp-line by non-root users.
+
+Note:
+if you run nonroot.sh, the changes described below will be applied
+to your system.  But, that script isn't perfect.  If you can't run
+by non-root user, try to configuration yourself with this document.
+
+
+Linux(with hotplugging support):
+
+From giriver's README (this scripts based on Kir Kolyshkin's RPM):
+# egrep -q '^ifp:' /etc/group || /usr/sbin/groupadd ifp
+
+(for iFP-1XX series)
+# egrep -q '^ifpdev[[:blank:]]' /etc/hotplug/usb.usermap || echo "ifpdev 0x0003 0x4102 0x1001 0x0000 0x0000 0x00 0x00 0x00 0x00 0x00 0x00 0x00000000" >> /etc/hotplug/usb.usermap
+(for iFP-3XX series)
+# egrep -q '^ifpdev[[:blank:]]' /etc/hotplug/usb.usermap || echo "ifpdev 0x0003 0x4102 0x1003 0x0000 0x0000 0x00 0x00 0x00 0x00 0x00 0x00 0x00000000" >> /etc/hotplug/usb.usermap
+(for iFP-5XX series)
+# egrep -q '^ifpdev[[:blank:]]' /etc/hotplug/usb.usermap || echo "ifpdev 0x0003 0x4102 0x1005 0x0000 0x0000 0x00 0x00 0x00 0x00 0x00 0x00 0x00000000" >> /etc/hotplug/usb.usermap
+(for iFP-7XX series)
+# egrep -q '^ifpdev[[:blank:]]' /etc/hotplug/usb.usermap || echo "ifpdev 0x0003 0x4102 0x1007 0x0000 0x0000 0x00 0x00 0x00 0x00 0x00 0x00 0x00000000" >> /etc/hotplug/usb.usermap
+(for iFP-8XX series)
+# egrep -q '^ifpdev[[:blank:]]' /etc/hotplug/usb.usermap || echo "ifpdev 0x0003 0x4102 0x1008 0x0000 0x0000 0x00 0x00 0x00 0x00 0x00 0x00 0x00000000" >> /etc/hotplug/usb.usermap
+
+And also copy the ifpdev script under /etc/hotplug/usb/ (make sure its permissions are 755)
+
+====COPY THIS SCRIPT TO /etc/hotplug/usb/ifpdev
+#!/bin/sh
+# /etc/hotplug/usb/ifpdev
+
+chgrp ifp $DEVICE
+chmod g+rw $DEVICE
+====COPY THIS SCRIPT TO /etc/hotplug/usb/ifpdev
+
+Reference:
+Kir's RPM:	http://kir.vtx.ru/ifp/
+giriver:	http://michele.pupazzo.org/giriver/
+
+
+FreeBSD 4.* / NetBSD:
+(for operator(FreeBSD)/wheel(NetBSD) group members)
+# chmod g+rw /dev/usb* /dev/ugen*
+
+(for all users)
+# chmod a+rw /dev/usb* /dev/ugen*
+
+
+FreeBSD 5.*:
+# devfs rule apply path "ugen" mode "664" (for operator group members)
+# devfs rule apply path "ugen" mode "666" (for all users)
+(But it temporary. if you plug off the USB cable, this configuration disable)
+
+
+in FreeBSD 5.2-RELEASE later, add this to /etc/devfs.rules
+====COPY THIS TO /etc/devfs.rules
+[iriver_ruleset=4012]
+add	path	'ugen*'	mode	664	# permission of /dev/ugen* set to 664
+====COPY THIS TO /etc/devfs.rules
+
+and add this line to /etc/rc.conf and reboot.
+devfs_system_ruleset="iriver_ruleset"
+ 
+If you change only /etc/devfs.rules, type this command by root
+for enable your configuration(Don't need to reboot).
+# /etc/rc.d/devfs start
+
+Reference:
+http://www.freebsdforums.org/forums/printthread.php?threadid=15380
+
+
+Mac OS X:
+You can run ifp by non-root user on Mac OS X.  Have fun!
+

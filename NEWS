@@ -1,0 +1,89 @@
+0.3:
+    * autotooled
+    * Add iconv(3) support.  ifp-line can transfer file with non-ASCII filename.
+    * Add "version" command.  Show ifp-line's version.
+    * ifp-1XX can download MP3/WMA/ASF to PC! 
+      which with firmware version 3.23 and later.
+
+0.2.4.7:
+    * Fix for "help" function by Joe Wreschnig<piman at debian.org>.
+    Print "help" message before opening the iFP device
+    and added -h/-help/--help options. [ ifp-driver-Patches-1072614 ]
+
+0.2.4.6:
+    * Bug fix release.
+    * Beta version of N10 firmware update support(Not tested with real N10).
+    * Fix bug with older versions of libusb. [ Patch 1072614 ]
+    * Fix "ifp get" behavioir with non-exist file. [ ifp-driver-Bugs-1195447 ]
+
+0.2.4.5:
+    * Bug fix release.
+    * Fix behavior of "ifp download VOICE somedir" and "ifp get VOICE". 
+    * Fix bug of "ifp put /path/to/music.mp3".
+    * Add version number to output of "ifp (no arguments)".
+
+0.2.4.4:
+    * Stable release.
+    * Fixed upload process.
+
+0.2.4.3:
+    * Bug fix release.
+    * Fix upload bug
+    * Some internal changes.
+
+0.2.4.2:
+    * Testing release.
+    * Fix "ls" bug for ifp-8xx.
+    * Fix "mkdir" and "rmdir" bug.
+    * Some internal changes.
+
+0.2.4.1:
+    * Testing release.
+    * Added support for iFP-7XX and iFP-8XX by Joseph Roback<joe at roback.cc>.
+    * Added manpage, contributed by Joe Wreschnig<piman at debian.org>.
+    * Added 0x1007 - 0x1010 to nonroot.sh script.
+    * Fixed makefile error, libs like -lusb need to be at the end
+    * 7XX and 8XX series can download any file, change behavior of "download".
+    * Change behavior of "ls"("ls" is same as "ls /"). 
+    * Few bugfixes.
+
+0.2.4:
+    * Testing release.
+    * Support for iFP-7XX/8XX/10XX and later iFP products(not perfect!).
+    * add code to "firmupdate".  It check valid format of firmware file.
+
+0.2.3.1:
+    * Bug fix release.
+    * Fixed bug: "make install" failed using GNU make
+
+0.2.3:
+    * Bug fix release.
+    * Fixed nonroot.sh.  This script didn't work on FreeBSD-5.* .
+    * Add "make install".
+
+0.2.2:
+    * Convert to wav or rename to mp3 on download *.REC file(Thanks Kir!).
+    * Add nonroot.sh script for run ifp by non-root user.
+    * Many changes and some bugfix.
+
+0.2.1:
+    * Support for the iFP-5XXT series(maybe...).
+    * Support for Mac OS X.
+    * Many bugfixes and changes.
+
+0.2.0:
+    * Support for the iFP-3XXT series.
+    * Support for build on NetBSD and OpenBSD.
+    * Add "ifp firmupdate" command for firmware update.
+    * Add "ifp format" command.
+    * Add recursive upload/download support.
+    * Add "-r" option to "ifp rm" command.
+    * Fixed bugs and many changes.
+
+0.1.1:
+    * support for Midnight Commander's extfs(can use mc as frontend).
+    * free space checking while uploading.
+    * verbosity changed.
+
+0.1.0:
+    * initial release.
