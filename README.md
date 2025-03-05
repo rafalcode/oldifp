@@ -13,3 +13,4 @@ For ARM64 such as Raspberry Pi's, you will need the following configure option w
 ```
 ./configure --build=aarch64-unknown-linux-gnu
 ```
+The executable is called ifp.
